@@ -10,7 +10,7 @@
 <div class="clearfix" ng-if="$index % 3 == 0"></div>
 <div class="col-sm-4">
             <h2>{{dailyweather.dt * 1000 | date:'EEEE MM/dd/yyyy'}}</h2>
-            <i class="wi" ng-class="getWeatherIcon(dailyweather.weather[0].main)"></i>
+            <i class="wi fa-5x" ng-class="getWeatherIcon(dailyweather.weather[0].main)"></i>
             Sunrise: {{dailyweather.sunrise * 1000 | date:'h:mm a'}}<br/>
             Sunset: {{dailyweather.sunset * 1000 | date:'h:mm a'}}<br/>
             Temp: {{dailyweather.temp.day}}<br/>

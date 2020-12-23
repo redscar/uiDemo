@@ -81,6 +81,8 @@ app.service('getData', function($http) {
         /*
         Get weather function. Uses openweathermap.org.
         Documentation: https://openweathermap.org/api/one-call-api
+
+        Warning: since I do not have a server to make the request to I must hard code the API key. Usually this would be hidden via server side code
         */
         return $http.get('https://api.openweathermap.org/data/2.5/onecall?lat=' + localData.lat + '&lon=' + localData.lon + '&appid=e996dcef9df8cd0b916530923ec04af5&units=imperial')
             .then(function mySuccess(response) {
