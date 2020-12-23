@@ -1,10 +1,16 @@
 <div ng-controller="weatherArea">
+<h3>7 day forecast</h3>
+  <pre>
+  {{lat}}
+  {{lon}}
+  </pre>
 
   <ul>
     <li ng-repeat="dailyweather in weatherJson.daily">
 <div class="clearfix" ng-if="$index % 3 == 0"></div>
 <div class="col-sm-4">
-            <h2>{{dailyweather.dt * 1000 | date:'MM/dd/yyyy'}}</h2>
+            <h2>{{dailyweather.dt * 1000 | date:'EEEE MM/dd/yyyy'}}</h2>
+            <i class="wi" ng-class="getWeatherIcon(dailyweather.weather[0].main)"></i>
             Sunrise: {{dailyweather.sunrise * 1000 | date:'h:mm a'}}<br/>
             Sunset: {{dailyweather.sunset * 1000 | date:'h:mm a'}}<br/>
             Temp: {{dailyweather.temp.day}}<br/>
@@ -20,16 +26,6 @@
 
 
 <hr/>
-
-<pre>
-{{lat}}
-{{lon}}
-</pre>
-  <pre>{{weatherJson | json}}</pre>
-
-Current Temp: {{weatherJson.current.temp}}<br/>
-Feels Like: {{weatherJson.current.feels_like}}<br/>
-Humidity: {{weatherJson.current.humidity}}<br/>
 
 
 
