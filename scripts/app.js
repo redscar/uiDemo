@@ -12,7 +12,7 @@ app.config(function($routeProvider) {
 app.controller('formSubmit'),function($scope){
 
 
-}
+});
 
 app.controller('weatherArea', function($scope, $http, $sce, getData) {
     $scope.loading = true;
