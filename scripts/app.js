@@ -2,12 +2,19 @@ var app = angular.module("uiDemo", ['ngRoute','ngMessages']);
 app.config(function($routeProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: "partials/home.html"
+            templateUrl: "partials/home.html",
+            activeTab:"home",
+            title: "Home"
         })
         .when("/weather", {
-            templateUrl: "partials/weather.html"
+            templateUrl: "partials/weather.html",
+            activeTab:"weather",
+            title:"7 Day Forecast"
         });
+}).run(function($rootScope,$route){
+  $rootScope.$route = $route;
 });
+
 
 app.controller('formSubmit',function($scope){
 $scope.formData = {};
@@ -31,7 +38,6 @@ app.controller('hourlyWeather',function($scope,getData){
   });
 
   $scope.getWeatherIcon = function(weather) {
-    console.log("Weather icon",weather);
     return getData.getWeatherIcon(weather);
   }
   $scope.getWindDirectionIcon = function(windDirectionDegrees) {
@@ -53,7 +59,6 @@ app.controller('weatherArea', function($scope, getData) {
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
-          console.log("position",position);
             $scope.$evalAsync(function() {
                 $scope.lat = position.coords.latitude;
                 $scope.lan = position.coords.longitude;
@@ -67,7 +72,6 @@ app.controller('weatherArea', function($scope, getData) {
             })
         });
     } else {
-      console.log("Navigation is stopped");
         getData.setLocation($scope.lat, $scope.lon);
         $scope.loadingMessage = "Predicting The Weather for Red Bank, NJ";
         getData.weather().then(function mySuccess(response) {
@@ -118,7 +122,7 @@ app.service('getData', function($http,$timeout) {
 
         Warning: since I do not have a server to make the request to I must hard code the API key. Usually this would be hidden via server side code
         */
-        return $http.get('https://api.openweathermap.org/data/2.5/onecall?lat=' + localData.lat + '&lon=' + localData.lon + '&appid=e996dcef9df8cd0b916530923ec04af5&units=imperial')
+        return $http.get('https://api.openweathermap.org/data/2.5/onecall?lat=' + localData.lat + '&lon=' + localData.lon + '&appid=e996dcef9df8cd0b916530923ec04af5&units=imperial',{cache:true})
             .then(function mySuccess(response) {
                 return response.data;
             }, function myError(response) {

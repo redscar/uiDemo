@@ -1,29 +1,23 @@
 <div ng-controller="formSubmit">
   <h3>Form to nothingness</h3>
   <form ng-submit="contactForm.$valid && submitTheForm()" name="contactForm" autocomplete="off" novalidate>
-    <div class="input-group">
       <label>First Name <span class="text-danger">*</span></label>
       <input type="text" class="form-control" placeholder="First Name" name="fname" ng-model="formData.fname" required  minlength="3">
       <div class="field-error" ng-messages="contactForm.fname.$error" ng-show="contactForm.fname.$touched" role="alert">
         <div ng-include="'partials/validation.html'"></div>
       </div>
-    </div>
     <br/>
-    <div class="input-group">
       <label>Last Name <span class="text-danger">*</span></label>
       <input type="text" class="form-control" placeholder="Last Name" name="lname" ng-model="formData.lname" required minlength="3" maxlength="50">
       <div class="field-error" ng-messages="contactForm.lname.$error"  ng-show="contactForm.lname.$touched" role="alert">
         <div ng-include="'partials/validation.html'"></div>
       </div>
-    </div>
     <br/>
-    <div class="input-group">
       <label>Email <span class="text-danger">*</span></label>
       <input type="email" class="form-control" placeholder="Email" name="email" ng-model="formData.email" required>
       <div class="field-error" ng-messages="contactForm.email.$error" ng-show="contactForm.email.$touched" role="alert">
         <div ng-include="'partials/validation.html'"></div>
       </div>
-    </div>
     <br/>
     <div class="input-group">
       <button type="submit" class="btn btn-success"> Submit Data </button>
