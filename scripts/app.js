@@ -1,4 +1,4 @@
-var app = angular.module("uiDemo", ["ngRoute"]);
+var app = angular.module("uiDemo", ['ngRoute']);
 app.config(function($routeProvider) {
     $routeProvider
         .when("/", {
@@ -9,39 +9,51 @@ app.config(function($routeProvider) {
         });
 });
 
+app.controller('formSubmit'),function($scope){
 
+
+}
 
 app.controller('weatherArea', function($scope, $http, $sce, getData) {
-
+    $scope.loading = true;
     $scope.lat = 40.347099;
     $scope.lon = -74.064957;
     $scope.weatherJson = {};
+    $scope.loadingMessage = "Please allow your browser to access your location";
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
+          console.log("position",position);
             $scope.$evalAsync(function() {
                 $scope.lat = position.coords.latitude;
                 $scope.lan = position.coords.longitude;
+                $scope.loadingMessage = "Predicting The Weather";
                 getData.setLocation($scope.lat, $scope.lon);
                 getData.weather().then(function mySuccess(response) {
                     $scope.weatherJson = response;
+                    $scope.loading = false;
                 });
 
             })
         });
     } else {
+      console.log("Navigation is stopped");
         getData.setLocation($scope.lat, $scope.lon);
+        $scope.loadingMessage = "Predicting The Weather for Red Bank, NJ";
         getData.weather().then(function mySuccess(response) {
             $scope.weatherJson = response;
+            $scope.loading = false;
         });
 
     }
 
     $scope.getDirection = function(angle) {
+      //Since the direction is based on a circle we can figure out what direction it faces
         var directions = ['North', 'North-West', 'West', 'South-West', 'South', 'South-East', 'East', 'North-East'];
         return directions[Math.round(((angle %= 360) < 0 ? angle + 360 : angle) / 45) % 8];
     }
     $scope.getWeatherIcon = function(weather) {
+      //We have more icons. However, for now lets do basic ones. Cloud, Rain, Snow, Sunny. Anything else will default to sunny
         if (weather.toLowerCase().includes("cloud")) {
             return "wi-cloud";
         } else if (weather.toLowerCase().includes("rain")) {
@@ -60,6 +72,7 @@ app.controller('weatherArea', function($scope, $http, $sce, getData) {
     }
 
     $scope.getsunIcon = function(sunTime){
+      //The icons we use go from 1-12. Therefore if the time is military time subtract 12 to get the number we need
       var sunHour = new Date(sunTime * 1000).getHours();
       if(sunHour > 12){
         sunHour -=12;
@@ -73,7 +86,7 @@ app.controller('weatherArea', function($scope, $http, $sce, getData) {
 
 
 
-app.service('getData', function($http) {
+app.service('getData', function($http,$timeout) {
     //Set our default localData variable
     localData = {};
     //Default to red bank

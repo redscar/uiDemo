@@ -15,3 +15,14 @@
 .weatherForecastList .mainWeatherIcon{
   margin-bottom:15px;
 }
+.weatherDisplay{
+  padding:5px;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+   border-radius:5px;
+
+}
+.loading{
+  text-align:center;
+  margin:0 auto;
+
+}

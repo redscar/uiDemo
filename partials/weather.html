@@ -1,13 +1,19 @@
 <div ng-controller="weatherArea">
 <h3>Future Forecast</h3>
 <pre>
-  {{lat}}
-  {{lon}}
+  Latitude: {{lat}}
+  Longitude: {{lon}}
   </pre>
-<ul class="weatherForecastList">
+
+<div ng-show="loading" class="loading">
+<img src="images/loader.gif"><br/>{{loadingMessage}}
+  </div>
+
+<ul class="weatherForecastList" ng-hide="loading">
   <li ng-repeat="dailyweather in weatherJson.daily">
     <div class="clearfix" ng-if="$index % 4 == 0"></div>
     <div class="col-sm-3">
+      <div class="thumbnail weatherDisplay">
     <h2>{{dailyweather.dt * 1000 | date:'EEEE MM/dd/yyyy'}}</h2>
     <div class="mainWeatherIcon"><i class="wi fa-5x" ng-class="getWeatherIcon(dailyweather.weather[0].main)"></i></div>
     <div>{{dailyweather.weather[0].main}} - {{dailyweather.weather[0].description}}</div>
@@ -23,7 +29,7 @@
       <div class="col-sm-6"><strong>Wind Speed:</strong> {{dailyweather.wind_speed}}</div>
       <div class="col-sm-6"><strong>Wind Direction:</strong> {{getDirection(dailyweather.wind_deg)}} <i class="wi wi-wind fa-1x" ng-class="getWindDirectionIcon(dailyweather.wind_deg)"></i>
 
-
+</div>
       </div>
     </div>
   </li>
