@@ -1,0 +1,14 @@
+<div ng-controller="hourlyWeather">
+
+<table class="table">
+<thead></thead>
+<tbody>
+<tr ng-repeat="weather in weatherJson.hourly | limitTo:5">
+<td><i class="wi fa-1x" ng-class="getsunIcon(weather.dt)"> {{weather.dt * 1000 | date:'h:mm a'}}</td>
+<td>{{weather.temp}}&deg;F</td>
+<td><i class="wi fa-1x" ng-class="getWeatherIcon(weather.weather[0].main)"></i> {{weather.weather[0].main}}</td>
+</tr>
+
+</tbody>
+  </table>
+  </div>

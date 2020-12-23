@@ -17,7 +17,34 @@ $scope.submitTheForm = function(){
 
 });
 
-app.controller('weatherArea', function($scope, $http, $sce, getData) {
+app.controller('hourlyWeather',function($scope,getData){
+  $scope.loading = true;
+  $scope.lat = 40.347099;
+  $scope.lon = -74.064957;
+  $scope.weatherJson = {};
+
+  $scope.loadingMessage = "Predicting The Weather";
+  getData.setLocation($scope.lat, $scope.lon);
+  getData.weather().then(function mySuccess(response) {
+      $scope.weatherJson = response;
+      $scope.loading = false;
+  });
+
+  $scope.getWeatherIcon = function(weather) {
+    console.log("Weather icon",weather);
+    return getData.getWeatherIcon(weather);
+  }
+  $scope.getWindDirectionIcon = function(windDirectionDegrees) {
+    return getData.getWindDirectionIcon(windDirectionDegrees);
+  }
+  $scope.getsunIcon = function(sunTime){
+    return getData.getsunIcon(sunTime);
+  }
+
+
+});
+
+app.controller('weatherArea', function($scope, getData) {
     $scope.loading = true;
     $scope.lat = 40.347099;
     $scope.lon = -74.064957;
@@ -56,32 +83,14 @@ app.controller('weatherArea', function($scope, $http, $sce, getData) {
         return directions[Math.round(((angle %= 360) < 0 ? angle + 360 : angle) / 45) % 8];
     }
     $scope.getWeatherIcon = function(weather) {
-      //We have more icons. However, for now lets do basic ones. Cloud, Rain, Snow, Sunny. Anything else will default to sunny
-        if (weather.toLowerCase().includes("cloud")) {
-            return "wi-cloud";
-        } else if (weather.toLowerCase().includes("rain")) {
-            return "wi-rain";
-        } else if (weather.toLowerCase().includes("snow")) {
-            return "wi-snow";
-        } else {
-            return "wi-day-sunny";
-
-        }
-
+      return getData.getWeatherIcon(weather);
     }
     $scope.getWindDirectionIcon = function(windDirectionDegrees) {
-      //There are two classes we can use for the icons. From and Towards. Based off the API directions the wind degrees is measured using meteorological which means its where ir originates. Therefore we use "From"
-      return 'from-'+windDirectionDegrees+'-deg'
+      return getData.getWindDirectionIcon(windDirectionDegrees);
     }
 
     $scope.getsunIcon = function(sunTime){
-      //The icons we use go from 1-12. Therefore if the time is military time subtract 12 to get the number we need
-      var sunHour = new Date(sunTime * 1000).getHours();
-      if(sunHour > 12){
-        sunHour -=12;
-      }
-      return 'wi-time-'+sunHour;
-
+      return getData.getsunIcon(sunTime);
     }
 
 });
@@ -116,5 +125,36 @@ app.service('getData', function($http,$timeout) {
                 console.log(response.statusText);
             });
     }
+
+    this.getWindDirectionIcon = function(windDirectionDegrees){
+      //There are two classes we can use for the icons. From and Towards. Based off the API directions the wind degrees is measured using meteorological which means its where ir originates. Therefore we use "From"
+      return 'from-'+windDirectionDegrees+'-deg'
+    }
+
+    this.getWeatherIcon = function(weather) {
+      //We have more icons. However, for now lets do basic ones. Cloud, Rain, Snow, Sunny. Anything else will default to sunny
+        if (weather.toLowerCase().includes("cloud")) {
+            return "wi-cloud";
+        } else if (weather.toLowerCase().includes("rain")) {
+            return "wi-rain";
+        } else if (weather.toLowerCase().includes("snow")) {
+            return "wi-snow";
+        } else {
+            return "wi-day-sunny";
+
+        }
+
+    }
+
+    this.getsunIcon = function(sunTime){
+      //The icons we use go from 1-12. Therefore if the time is military time subtract 12 to get the number we need
+      var sunHour = new Date(sunTime * 1000).getHours();
+      if(sunHour > 12){
+        sunHour -=12;
+      }
+      return 'wi-time-'+sunHour;
+
+    }
+
 
 });
