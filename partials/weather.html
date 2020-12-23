@@ -1,35 +1,33 @@
 <div ng-controller="weatherArea">
-<h3>7 day forecast</h3>
-  <pre>
+<h3>Future Forecast</h3>
+<pre>
   {{lat}}
   {{lon}}
   </pre>
+<ul class="weatherForecastList">
+  <li ng-repeat="dailyweather in weatherJson.daily">
+    <div class="clearfix" ng-if="$index % 4 == 0"></div>
+    <div class="col-sm-3">
+    <h2>{{dailyweather.dt * 1000 | date:'EEEE MM/dd/yyyy'}}</h2>
+    <div class="mainWeatherIcon"><i class="wi fa-5x" ng-class="getWeatherIcon(dailyweather.weather[0].main)"></i></div>
+    <div>{{dailyweather.weather[0].main}} - {{dailyweather.weather[0].description}}</div>
+    <div class="row">
+      <div class="col-sm-6"><strong>Sunrise:</strong>{{dailyweather.sunrise * 1000 | date:'h:mm a'}}</div>
+      <div class="col-sm-6"><strong>Sunset:</strong> {{dailyweather.sunset * 1000 | date:'h:mm a'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6"><strong>Temp:</strong> {{dailyweather.temp.day}}</div>
+      <div class="col-sm-6"><strong>Feels Like:</strong> {{dailyweather.feels_like.day}}</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6"><strong>Wind Speed:</strong> {{dailyweather.wind_speed}}</div>
+      <div class="col-sm-6"><strong>Wind Direction:</strong> {{getDirection(dailyweather.wind_deg)}} <i class="wi wi-wind fa-2x" ng-class="getWindDirectionIcon(dailyweather.wind_deg)"></i>
 
-  <ul class="weatherForecastList">
-    <li ng-repeat="dailyweather in weatherJson.daily">
-<div class="clearfix" ng-if="$index % 3 == 0"></div>
-<div class="col-sm-4">
-            <h2>{{dailyweather.dt * 1000 | date:'EEEE MM/dd/yyyy'}}</h2>
-            <i class="wi fa-5x" ng-class="getWeatherIcon(dailyweather.weather[0].main)"></i>
-            Sunrise: {{dailyweather.sunrise * 1000 | date:'h:mm a'}}<br/>
-            Sunset: {{dailyweather.sunset * 1000 | date:'h:mm a'}}<br/>
-            Temp: {{dailyweather.temp.day}}<br/>
-            Feels Like: {{dailyweather.feels_like.day}}<br/>
-            <div ng-repeat="description in dailyweather.weather">{{description.main}} - {{description.description}}</div>
-            Wind Speed: {{dailyweather.wind_speed}}<br/>
-            Wind Direction: {{getDirection(dailyweather.wind_deg)}}
-            <pre>{{dailyweather | json}}</pre></li>
-        </div>
 
-
-  </ul>
-
-
+      </div>
+    </div>
+  </li>
+  </div>
+</ul>
 <hr/>
-
-
-
-
-
-
 </div>

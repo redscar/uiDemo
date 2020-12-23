@@ -42,10 +42,6 @@ app.controller('weatherArea', function($scope, $http, $sce, getData) {
         return directions[Math.round(((angle %= 360) < 0 ? angle + 360 : angle) / 45) % 8];
     }
     $scope.getWeatherIcon = function(weather) {
-        console.log("weather", weather);
-        console.log("Does it have cloud", weather.toLowerCase().includes("cloud"));
-
-
         if (weather.toLowerCase().includes("cloud")) {
             return "wi-cloud";
         } else if (weather.toLowerCase().includes("rain")) {
@@ -57,6 +53,10 @@ app.controller('weatherArea', function($scope, $http, $sce, getData) {
 
         }
 
+    }
+    $scope.getWindDirectionIcon = function(windDirectionDegrees) {
+      //There are two classes we can use for the icons. From and Towards. Based off the API directions the wind degrees is measured using meteorological which means its where ir originates. Therefore we use "From"
+      return 'from-'+windDirectionDegrees+'-deg'
     }
 
 });
