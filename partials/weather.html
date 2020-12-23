@@ -12,16 +12,16 @@
     <div class="mainWeatherIcon"><i class="wi fa-5x" ng-class="getWeatherIcon(dailyweather.weather[0].main)"></i></div>
     <div>{{dailyweather.weather[0].main}} - {{dailyweather.weather[0].description}}</div>
     <div class="row">
-      <div class="col-sm-6"><strong>Sunrise:</strong>{{dailyweather.sunrise * 1000 | date:'h:mm a'}}</div>
-      <div class="col-sm-6"><strong>Sunset:</strong> {{dailyweather.sunset * 1000 | date:'h:mm a'}}</div>
+      <div class="col-sm-6"><strong>Sunrise:</strong>{{dailyweather.sunrise * 1000 | date:'h:mm a'}} <i class="wi fa-1x" ng-class="getsunIcon(dailyweather.sunrise)"></i></div>
+      <div class="col-sm-6"><strong>Sunset:</strong> {{dailyweather.sunset * 1000 | date:'h:mm a'}} <i class="wi fa-1x" ng-class="getsunIcon(dailyweather.sunset)"></i></div>
     </div>
     <div class="row">
-      <div class="col-sm-6"><strong>Temp:</strong> {{dailyweather.temp.day}}</div>
-      <div class="col-sm-6"><strong>Feels Like:</strong> {{dailyweather.feels_like.day}}</div>
+      <div class="col-sm-6"><strong>Temp:</strong> {{dailyweather.temp.day}}&deg;F</div>
+      <div class="col-sm-6"><strong>Feels Like:</strong> {{dailyweather.feels_like.day}}&deg;F</div>
     </div>
     <div class="row">
       <div class="col-sm-6"><strong>Wind Speed:</strong> {{dailyweather.wind_speed}}</div>
-      <div class="col-sm-6"><strong>Wind Direction:</strong> {{getDirection(dailyweather.wind_deg)}} <i class="wi wi-wind fa-2x" ng-class="getWindDirectionIcon(dailyweather.wind_deg)"></i>
+      <div class="col-sm-6"><strong>Wind Direction:</strong> {{getDirection(dailyweather.wind_deg)}} <i class="wi wi-wind fa-1x" ng-class="getWindDirectionIcon(dailyweather.wind_deg)"></i>
 
 
       </div>

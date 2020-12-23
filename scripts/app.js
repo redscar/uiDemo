@@ -59,6 +59,15 @@ app.controller('weatherArea', function($scope, $http, $sce, getData) {
       return 'from-'+windDirectionDegrees+'-deg'
     }
 
+    $scope.getsunIcon = function(sunTime){
+      var sunHour = new Date(sunTime * 1000).getHours();
+      if(sunHour > 12){
+        sunHour -=12;
+      }
+      return 'wi-time-'+sunHour;
+
+    }
+
 });
 
 
