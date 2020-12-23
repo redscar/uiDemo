@@ -9,7 +9,7 @@ app.config(function($routeProvider) {
         });
 });
 
-app.controller('formSubmit'),function($scope){
+app.controller('formSubmit',function($scope){
 
 
 });
