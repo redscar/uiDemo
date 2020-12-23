@@ -1,4 +1,4 @@
-var app = angular.module("uiDemo", ['ngRoute']);
+var app = angular.module("uiDemo", ['ngRoute','ngMessages']);
 app.config(function($routeProvider) {
     $routeProvider
         .when("/", {
@@ -10,7 +10,10 @@ app.config(function($routeProvider) {
 });
 
 app.controller('formSubmit',function($scope){
-
+$scope.formData = {};
+$scope.submitTheForm = function(){
+  alert("Thank you " + $scope.formData.fname +" " + $scope.formData.lname +". Your form has been submitted.");
+}
 
 });
 
