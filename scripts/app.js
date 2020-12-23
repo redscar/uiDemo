@@ -1,45 +1,72 @@
 var app = angular.module("uiDemo", ["ngRoute"]);
 app.config(function($routeProvider) {
     $routeProvider
-    .when("/", {
-        templateUrl : "partials/home.html"
-    })
-    .when("/weather", {
-        templateUrl : "partials/weather.html"
-    });
+        .when("/", {
+            templateUrl: "partials/home.html"
+        })
+        .when("/weather", {
+            templateUrl: "partials/weather.html"
+        });
 });
 
 
 
-app.controller('weatherArea',function($scope){
+app.controller('weatherArea', function($scope, $http, $sce, getData) {
 
-$scope.weatherJson= {
-  "lat": 33.44,
-  "lon": -94.04,
-  "timezone": "America/Chicago",
-  "timezone_offset": -21600,
-  "current": {
-    "dt": 1595243443,
-    "sunrise": 1608124431,
-    "sunset": 1608160224,
-    "temp": 274.75,
-    "feels_like": 270.4,
-    "pressure": 1017,
-    "humidity": 96,
-    "dew_point": 274.18,
-    "uvi": 0,
-    "clouds": 90,
-    "visibility": 6437,
-    "wind_speed": 3.6,
-    "wind_deg": 320,
-    "weather": [
-      {
-        "id": 701,
-        "main": "Mist",
-        "description": "mist",
-        "icon": "50n"
-      }
-    ]
-  }
-};
+    $scope.lat = 40.347099;
+    $scope.lon = -74.064957;
+    $scope.weatherJson = {};
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            $scope.$evalAsync(function() {
+                $scope.lat = position.coords.latitude;
+                $scope.lan = position.coords.longitude;
+                getData.setLocation($scope.lat, $scope.lon);
+                getData.weather().then(function mySuccess(response) {
+                    $scope.weatherJson = response;
+                });
+
+            })
+        });
+    }else{
+      getData.setLocation($scope.lat, $scope.lon);
+      getData.weather().then(function mySuccess(response) {
+          $scope.weatherJson = response;
+      });
+
+    }
+
+
+});
+
+
+
+
+app.service('getData', function($http) {
+    //Set our default localData variable
+    localData = {};
+    //Default to red bank
+    localData.lat = 40.347099;
+    localData.lon = -74.064957;
+
+    //Set location function, pass in latitute and longitude
+    this.setLocation = function(lat, lon) {
+        localData.lat = lat;
+        localData.lon = lon;
+        return;
+    }
+    this.weather = function() {
+      /*
+      Get weather function. Uses openweathermap.org.
+      Documentation: https://openweathermap.org/api/one-call-api
+      */
+        return $http.get('https://api.openweathermap.org/data/2.5/onecall?lat=' + localData.lat + '&lon=' + localData.lon + '&appid=e996dcef9df8cd0b916530923ec04af5&units=imperial')
+            .then(function mySuccess(response) {
+                return response.data;
+            }, function myError(response) {
+                console.log(response.statusText);
+            });
+    }
+
 });

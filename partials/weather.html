@@ -1,3 +1,13 @@
 <div ng-controller="weatherArea">
-  <pre>{{weatherJson}}</pre>
+
+<pre>
+{{lat}}
+{{lon}}
+</pre>
+  <pre>{{weatherJson | json}}</pre>
+
+Current Temp: {{weatherJson.current.temp}}<br/>
+Feels Like: {{weatherJson.current.feels_like}}<br/>
+Humidity: {{weatherJson.current.humidity}}<br/>
+
 </div>
