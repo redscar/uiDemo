@@ -10,7 +10,8 @@ app.config(function($routeProvider) {
             templateUrl: "partials/weather.html",
             activeTab:"weather",
             title:"7 Day Forecast"
-        });
+        })
+        .otherwise({redirectTo:'/'});
 }).run(function($rootScope,$route){
   $rootScope.$route = $route;
 });
